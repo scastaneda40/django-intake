@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .views import register
+from intake.views import register
 
 def custom_logout(request):
     logout(request)
