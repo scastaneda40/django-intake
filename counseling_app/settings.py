@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'counseling_app.urls'
@@ -171,3 +172,4 @@ print(f"Loaded PORT: {PORT}")
 
 
 CSRF_TRUSTED_ORIGINS = ['https://django-intake-production.up.railway.app']
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
