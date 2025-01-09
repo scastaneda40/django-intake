@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from .forms import SubmissionForm
 from .models import Submission
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -12,6 +14,34 @@ def home(request):
         # Redirect regular users to their submission history
         return redirect('submission_history')
     return redirect('login')
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)  # Use your existing registration form
+        if form.is_valid():
+            # Save the user
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            # Assign role based on form input
+            role = request.POST.get('role', 'student')  # Default to "student"
+            if role == 'admin':
+                group, created = Group.objects.get_or_create(name='Admin')
+            else:
+                group, created = Group.objects.get_or_create(name='Student')
+
+            # Add the user to the group
+            user.groups.add(group)
+            messages.success(request, f"Account created for {role.capitalize()}!")
+
+            # Log the user in and redirect
+            login(request, user)
+            return redirect('home')  # Change 'home' to your desired URL
+    else:
+        form = RegistrationForm()
+    
+    return render(request, 'register.html', {'form': form})
 
 @login_required
 def submit_form(request):
