@@ -1,5 +1,6 @@
 from django import forms
 from .models import Submission
+from django.contrib.auth.models import User
 
 class SubmissionForm(forms.ModelForm):
     class Meta:
@@ -22,3 +23,10 @@ class SubmissionForm(forms.ModelForm):
             self.fields['name'].initial = user.get_full_name()  # Prepopulate with user's full name
             self.fields['email'].initial = user.email           # Prepopulate with user's email
 
+class RegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    role = forms.ChoiceField(choices=[('student', 'Student'), ('admin', 'Admin')], required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']

@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import SubmissionForm
 from .models import Submission
 from django.contrib.auth.decorators import login_required, user_passes_test
+from intake.forms import RegistrationForm  # Ensure this exists
+
 
 # Homepage
 def home(request):
@@ -19,9 +21,8 @@ def home(request):
 
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)  # Use your existing registration form
+        form = RegistrationForm(request.POST)  # Ensure this form exists
         if form.is_valid():
-            # Save the user
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
@@ -33,17 +34,20 @@ def register(request):
             else:
                 group, created = Group.objects.get_or_create(name='Student')
 
-            # Add the user to the group
-            user.groups.add(group)
+            user.groups.add(group)  # Add user to the group
             messages.success(request, f"Account created for {role.capitalize()}!")
 
-            # Log the user in and redirect
-            login(request, user)
-            return redirect('home')  # Change 'home' to your desired URL
+            login(request, user)  # Log in the user
+            return redirect('/')  # Redirect to the homepage
     else:
         form = RegistrationForm()
-    
+
     return render(request, 'register.html', {'form': form})
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect('/')
 
 @login_required
 def submit_form(request):
