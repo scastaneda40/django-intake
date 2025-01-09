@@ -145,3 +145,5 @@ FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
 # Validate the key
 if not FIELD_ENCRYPTION_KEY:
     raise ValueError("FIELD_ENCRYPTION_KEY is not set in the .env file")
+
+PORT = os.getenv('PORT', '8080')
