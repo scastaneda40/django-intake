@@ -1,0 +1,31 @@
+<!-- intake/templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Counseling App{% endblock %}</title>
+</head>
+<body>
+    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link" style="text-decoration: none;">Logout</button>
+    </form>
+    
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'submit_form' %}">Submit Form</a></li>
+                <li><a href="{% url 'submission_history' %}">Your Submissions</a></li>
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

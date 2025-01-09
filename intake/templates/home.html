@@ -1,0 +1,14 @@
+<!-- intake/templates/home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome to the Counseling App</h1>
+<p>
+    {% if user.is_authenticated %}
+        <a href="{% url 'submission_history' %}">View Your Submissions</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login to Get Started</a>
+    {% endif %}
+</p>
+{% endblock %}
+
