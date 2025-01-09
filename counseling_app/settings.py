@@ -135,8 +135,11 @@ LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
 
 
 env = environ.Env()
-environ.Env.read_env()
 
+# Read the .env file
+environ.Env.read_env(BASE_DIR / ".env")  # Use the correct path to your .env file
+
+# Access FIELD_ENCRYPTION_KEY
 FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
 
 # Validate the key
