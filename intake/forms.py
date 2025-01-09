@@ -25,7 +25,6 @@ class SubmissionForm(forms.ModelForm):
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
-    role = forms.ChoiceField(choices=[('student', 'Student'), ('admin', 'Admin')], required=True)
 
     class Meta:
         model = User
