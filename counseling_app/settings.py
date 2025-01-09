@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 import environ
 
+import os
+print(f"Environment DATABASE_URL: {os.getenv('DATABASE_URL', 'Not Set')}")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,11 +129,29 @@ LOGIN_REDIRECT_URL = '/'  # Redirect after successful login
 LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
 
 
+
 env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")  # Use the correct path to your .env file
+
+try:
+    database_url = env('DATABASE_URL', default='Not Set')
+    print(f"Loaded DATABASE_URL: {database_url}")
+except Exception as e:
+    print(f"Error loading DATABASE_URL: {str(e)}")
+# Access FIELD_ENCRYPTION_KEY
+FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
+
+print(f"Loaded DATABASE_URL via environ: {env('DATABASE_URL', default='Not Set')}")
+print(f"BASE_DIR: {BASE_DIR}")
+print(f"Looking for .env at: {BASE_DIR / '.env'}")
+print(f"File exists: {(BASE_DIR / '.env').exists()}")
+
+
 
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': env.db('DATABASE_URL', default='postgresql://user:password@host:port/dbname')
 }
+
 
 # DEBUG
 DEBUG = env.bool('DEBUG', default=False)
@@ -139,15 +160,14 @@ DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = ['django-intake-production.up.railway.app', '127.0.0.1', 'localhost']
 
 # Read the .env file
-environ.Env.read_env(BASE_DIR / ".env")  # Use the correct path to your .env file
 
-# Access FIELD_ENCRYPTION_KEY
-FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
 
 # Validate the key
 if not FIELD_ENCRYPTION_KEY:
     raise ValueError("FIELD_ENCRYPTION_KEY is not set in the .env file")
 
-PORT = os.getenv('PORT', '8080')
+PORT = int(os.getenv('PORT', 8080))
+print(f"Loaded PORT: {PORT}")
+
 
 CSRF_TRUSTED_ORIGINS = ['https://django-intake-production.up.railway.app']
