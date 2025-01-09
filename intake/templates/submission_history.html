@@ -15,12 +15,12 @@
             <div class="card shadow">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Your Submissions</h2>
+                    {% if submissions %}
                     <div class="d-flex justify-content-between mb-4">
                         <p class="text-muted">Below are your previous submissions.</p>
                         <!-- Button to redirect to the form -->
                         <a href="{% url 'submit_form' %}" class="btn btn-primary btn-sm">Submit New Form</a>
                     </div>
-                    {% if submissions %}
                         <table class="table table-bordered table-striped">
                             <thead class="table-dark">
                                 <tr>
