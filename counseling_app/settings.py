@@ -28,7 +28,6 @@ SECRET_KEY = 'django-insecure-0*m*5uh$uup)=&pni5g2q5cjd00yp%(r67i*$d#c9b*ty%-)gr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -147,3 +146,4 @@ if not FIELD_ENCRYPTION_KEY:
     raise ValueError("FIELD_ENCRYPTION_KEY is not set in the .env file")
 
 PORT = os.getenv('PORT', '8080')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
