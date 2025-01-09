@@ -134,6 +134,7 @@ LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
 
 
 env = environ.Env()
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Read the .env file
 environ.Env.read_env(BASE_DIR / ".env")  # Use the correct path to your .env file
@@ -146,4 +147,3 @@ if not FIELD_ENCRYPTION_KEY:
     raise ValueError("FIELD_ENCRYPTION_KEY is not set in the .env file")
 
 PORT = os.getenv('PORT', '8080')
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
