@@ -136,7 +136,7 @@ DATABASES = {
 DEBUG = env.bool('DEBUG', default=False)
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = ['django-intake-production.up.railway.app', '127.0.0.1', 'localhost']
 
 # Read the .env file
 environ.Env.read_env(BASE_DIR / ".env")  # Use the correct path to your .env file
@@ -149,3 +149,5 @@ if not FIELD_ENCRYPTION_KEY:
     raise ValueError("FIELD_ENCRYPTION_KEY is not set in the .env file")
 
 PORT = os.getenv('PORT', '8080')
+
+CSRF_TRUSTED_ORIGINS = ['https://django-intake-production.up.railway.app']
