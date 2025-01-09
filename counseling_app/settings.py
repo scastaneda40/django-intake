@@ -12,9 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+import environ
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,8 +133,12 @@ LOGIN_URL = '/accounts/login/'  # Redirect unauthenticated users to login
 LOGIN_REDIRECT_URL = '/'  # Redirect after successful login
 LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
 
-FIELD_ENCRYPTION_KEY = os.getenv('FIELD_ENCRYPTION_KEY')
 
-# Raise an error if the key is not properly loaded
+env = environ.Env()
+environ.Env.read_env()
+
+FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
+
+# Validate the key
 if not FIELD_ENCRYPTION_KEY:
     raise ValueError("FIELD_ENCRYPTION_KEY is not set in the .env file")
