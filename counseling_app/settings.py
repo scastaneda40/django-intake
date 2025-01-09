@@ -134,6 +134,11 @@ LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
 
 
 env = environ.Env()
+
+# DEBUG
+DEBUG = env.bool('DEBUG', default=False)
+
+# ALLOWED_HOSTS
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Read the .env file
