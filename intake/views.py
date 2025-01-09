@@ -42,8 +42,7 @@ def register(request):
     else:
         form = RegistrationForm()
 
-    return render(request, 'register.html', {'form': form})
-
+    return render(request, 'registration/registration.html', {'form': form})  # Ensure this matches the template path
 
 def custom_logout(request):
     logout(request)
